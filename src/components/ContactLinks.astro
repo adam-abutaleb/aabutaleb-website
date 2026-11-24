@@ -1,0 +1,37 @@
+---
+import { site } from '../data/site';
+
+interface Props {
+  tone?: 'light' | 'dark';
+}
+const { tone = 'light' } = Astro.props;
+
+const links = [
+  site.email && { href: `mailto:${site.email}`, label: 'Email' },
+  site.github && { href: site.github, label: 'GitHub' },
+  site.linkedin && { href: site.linkedin, label: 'LinkedIn' },
+  site.resume && { href: site.resume, label: 'Resume (PDF)' },
+].filter(Boolean) as { href: string; label: string }[];
+
+const linkClass =
+  tone === 'dark'
+    ? 'text-pool-light underline underline-offset-4 hover:text-white'
+    : 'text-pool underline underline-offset-4 hover:text-deep';
+---
+{
+  links.length > 0 ? (
+    <ul class="flex flex-wrap gap-x-5 gap-y-2 text-sm font-medium">
+      {links.map((l) => (
+        <li>
+          <a href={l.href} class={linkClass}>
+            {l.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p class:list={['text-sm', tone === 'dark' ? 'text-pool-light' : 'text-deep-2']}>
+      TODO(content): add email, GitHub, LinkedIn and resume in src/data/site.ts
+    </p>
+  )
+}

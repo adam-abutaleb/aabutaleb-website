@@ -1,0 +1,12 @@
+---
+import ContactLinks from './ContactLinks.astro';
+import { site } from '../data/site';
+const year = new Date().getFullYear();
+---
+<footer class="mt-16 bg-deep text-shallow">
+  <div class="lane-rope rounded-none"></div>
+  <div class="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-8 sm:flex-row sm:items-center sm:justify-between">
+    <p class="text-sm">&copy; {year} {site.name}</p>
+    <ContactLinks tone="dark" />
+  </div>
+</footer>

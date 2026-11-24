@@ -1,0 +1,35 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  lane: number;
+}
+const { project, lane } = Astro.props;
+const { title, summary, tech, confirmed } = project.data;
+---
+<article
+  class="group relative flex h-full flex-col overflow-hidden rounded-lg border border-grout bg-white shadow-sm transition-shadow hover:shadow-md focus-within:ring-3 focus-within:ring-rope"
+>
+  <!-- Black lane line with the "T" end, like the floor of a competition pool. -->
+  <div aria-hidden="true" class="absolute inset-y-0 left-0 w-1.5 bg-deep"></div>
+  <div class="flex flex-1 flex-col gap-3 py-5 pl-7 pr-5">
+    <p class="font-mono text-xs font-semibold uppercase tracking-widest text-pool">Lane {lane}</p>
+    <h3 class="text-xl font-bold">
+      <a href={`/projects/${project.id}/`} class="after:absolute after:inset-0 focus-visible:outline-none">
+        {title}
+      </a>
+    </h3>
+    <p class="flex-1 text-deep-2">{summary}</p>
+    {!confirmed && <p class="text-xs font-semibold text-rope">Not yet confirmed for the portfolio</p>}
+    {
+      tech.length > 0 && (
+        <ul class="flex flex-wrap gap-2" aria-label="Tech used">
+          {tech.map((t) => (
+            <li class="rounded-full bg-shallow px-2.5 py-0.5 font-mono text-xs">{t}</li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</article>

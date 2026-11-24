@@ -1,0 +1,19 @@
+---
+/**
+ * Section heading styled like a pool depth marker: a small numbered tile
+ * next to the heading. Purely decorative; the number is hidden from screen readers.
+ */
+interface Props {
+  marker: string;
+  id?: string;
+}
+const { marker, id } = Astro.props;
+---
+<div class="mb-6 flex items-center gap-3">
+  <span
+    aria-hidden="true"
+    class="grid h-10 min-w-10 place-items-center rounded-md border-2 border-deep bg-white px-1 font-mono text-sm font-bold"
+    >{marker}</span
+  >
+  <h2 id={id} class="text-2xl font-bold tracking-tight sm:text-3xl"><slot /></h2>
+</div>

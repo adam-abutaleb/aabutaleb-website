@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+/*
+  Design tokens. Pool palette: deep-end navy for text, pool blue for accents,
+  tile white for surfaces, lane-rope red as a sparing highlight.
+  All text/background pairs used on the site meet WCAG AA.
+*/
+@theme {
+  --color-deep: #0a2a3d;        /* text, dark surfaces */
+  --color-deep-2: #12425e;
+  --color-pool: #0b6e99;        /* links, primary accent (AA on white) */
+  --color-pool-light: #5cc6ea;  /* accents on dark surfaces only */
+  --color-shallow: #e6f5fb;     /* tinted surfaces */
+  --color-tile: #f8fbfc;        /* page background */
+  --color-rope: #c8102e;        /* lane-rope red, decoration + focus */
+  --color-grout: #d4e6ee;       /* borders */
+
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+  body {
+    @apply bg-tile text-deep font-sans antialiased;
+  }
+  :focus-visible {
+    @apply outline-3 outline-offset-2 outline-rope rounded-sm;
+  }
+}
+
+@layer components {
+  /* Pool-floor tile grid, used behind the hero. Pure CSS, no image request. */
+  .bg-tiles {
+    background-color: var(--color-shallow);
+    background-image:
+      linear-gradient(to right, var(--color-grout) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--color-grout) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  /* Lane rope: alternating red/white floats, used as a section divider. */
+  .lane-rope {
+    height: 8px;
+    border-radius: 9999px;
+    background: repeating-linear-gradient(
+      to right,
+      var(--color-rope) 0 18px,
+      #fff 18px 36px,
+      var(--color-pool) 36px 54px,
+      #fff 54px 72px
+    );
+    box-shadow: inset 0 0 0 1px rgb(10 42 61 / 0.15);
+  }
+  .prose-pool { @apply max-w-prose leading-relaxed; }
+  .prose-pool h2 { @apply mt-10 mb-3 text-2xl font-bold; }
+  .prose-pool h3 { @apply mt-8 mb-2 text-xl font-semibold; }
+  .prose-pool p, .prose-pool ul, .prose-pool ol { @apply mb-4; }
+  .prose-pool ul { @apply list-disc pl-6; }
+  .prose-pool ol { @apply list-decimal pl-6; }
+  .prose-pool a { @apply text-pool underline underline-offset-2 hover:text-deep; }
+  .prose-pool code { @apply font-mono text-[0.9em] bg-shallow px-1 rounded; }
+}

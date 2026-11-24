@@ -1,0 +1,75 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import ContactLinks from '../components/ContactLinks.astro';
+import { site } from '../data/site';
+
+const featured = (await getCollection('projects', (p) => p.data.featured)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+<Base>
+  <section class="bg-tiles relative overflow-hidden border-b border-grout">
+    <div class="mx-auto max-w-5xl px-4 py-16 sm:py-24">
+      <p class="mb-4 inline-block rounded-md border-2 border-deep bg-white px-2 py-0.5 font-mono text-xs font-bold uppercase tracking-widest">
+        Deep end &middot; SWE &amp; quant
+      </p>
+      <h1 class="max-w-3xl text-4xl font-extrabold tracking-tight sm:text-5xl">
+        {site.name}
+      </h1>
+      <p class="mt-4 max-w-2xl text-lg text-deep-2 sm:text-xl">{site.tagline}</p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a
+          href="/projects/"
+          class="rounded-md bg-pool px-5 py-2.5 font-semibold text-white shadow-sm hover:bg-deep"
+          >See projects</a
+        >
+        {
+          site.resume && (
+            <a
+              href={site.resume}
+              class="rounded-md border-2 border-deep bg-white px-5 py-2 font-semibold hover:bg-shallow"
+            >
+              Resume (PDF)
+            </a>
+          )
+        }
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="featured" class="mx-auto max-w-5xl px-4 py-14">
+    <SectionHeading marker="01" id="featured">Featured work</SectionHeading>
+    <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        featured.map((project, i) => (
+          <li>
+            <ProjectCard project={project} lane={i + 1} />
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <div class="mx-auto max-w-5xl px-4"><div class="lane-rope" aria-hidden="true"></div></div>
+
+  <section aria-labelledby="results" class="mx-auto max-w-5xl px-4 py-14">
+    <SectionHeading marker="02" id="results">Results</SectionHeading>
+    <p class="max-w-prose text-deep-2">
+      TODO(content): competitive programming and math competition results, with event, year and
+      placing. Only list results you can point to.
+    </p>
+  </section>
+
+  <div class="mx-auto max-w-5xl px-4"><div class="lane-rope" aria-hidden="true"></div></div>
+
+  <section aria-labelledby="contact" class="mx-auto max-w-5xl px-4 py-14">
+    <SectionHeading marker="03" id="contact">Contact</SectionHeading>
+    <p class="mb-4 max-w-prose text-deep-2">
+      Looking for software engineering internships. TODO(content): confirm target term (e.g. Summer 2027).
+    </p>
+    <ContactLinks />
+  </section>
+</Base>
